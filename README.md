@@ -14,7 +14,7 @@ The Public IPs of the EC2 instances will be printed out on console. Copy & paste
 
 ## Using Ansible to automate the installation of the Polkadot binaries:
 1. Navigate to /Ansible
-2. Using an editor, comment out ONLY ONE of the sections either starting with "1st installation method:" OR "2nd installation method:". Save and exit.
+2. Using an editor, open "deploy_polkadot.yml". Comment out ONLY ONE of the sections either starting with "1st installation method:" OR "2nd installation method:". Save and exit.
 3. Run "ansible-playbook -i inventory.ini deploy_polkadot.yml"
 
 ## Using Ansible to create a systemd process:
