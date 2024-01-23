@@ -1,0 +1,76 @@
+---
+- hosts: polkadot-nodes
+  become: true
+
+  tasks:
+    - name: Check/Install NTP
+      apt:
+        name: NTP
+        state: present
+        enabled: yes
+
+    - name: Install Polkadot dependencies
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - unzip
+        - curl
+
+##############  1st installation method: Using apt install. If this method is used, comment the section "2nd installation method" ############## 
+    - name: Download and install Parity-Keyring using apt
+      apt:
+        name: parity-keyring
+        state: present
+    
+    - name: Download and install Polkadot binary using apt
+      apt:
+        name: polkadot
+        state: present
+############## END OF 1ST INSTALLATION METHOD ############## 
+
+
+##############  2nd installation method: Using Github releases. The 3 polkadot binaries v1.0.0 to be installed ############## 
+    - name: Download and install Polkadot binary
+      get_url:
+        url: "https://github.com/paritytech/polkadot/releases/download/v1.0.0/polkadot"
+        dest: "/usr/local/bin/polkadot_v1.0.0.0"
+        mode: "0755"
+
+    - name: Download and install Polkadot execute worker
+      get_url:
+        url: "https://github.com/paritytech/polkadot-sdk/releases/download/polkadot-v1.0.0/polkadot-execute-worker"
+        dest: "/usr/local/bin/polkadot-execute-worker_v1.0.0.0"
+        mode: "0755"
+        
+    - name: Download and install Polkadot prepare worker
+      get_url:
+        url: "https://github.com/paritytech/polkadot-sdk/releases/download/polkadot-v1.0.0/polkadot-prepare-worker"
+        dest: "/usr/local/bin/polkadot-prepare-worker_v1.0.0.0"
+        mode: "0755"
+############## END OF 2ND INSTALLATION METHOD ################
+
+
+# BY DEFAULT, THE POLKADOT SYSTEMD SERVICE IS DISABLED. Run systemd to start and enable polkadot service #
+    - name: Start Polkadot service
+      systemd:
+        name: polkadot
+        state: started
+        enabled: yes
+
+  #   - name: Create systemd service file
+  #     become_user: root
+  #     template:
+  #       src: polkadot.service.j2
+  #       dest: "/etc/systemd/system/polkadot.service"
+  #     notify: Start Polkadot Service
+
+  # handlers:
+  #   - name: Start Polkadot Service
+  #     become_user: root
+  #     systemd:
+  #       name: polkadot
+  #       state: started
+  #       enabled: yes
+
+

@@ -1,0 +1,10 @@
+[Unit]
+Description=Polkadot Validator
+
+[Service]
+ExecStart={{ polkadot_bin_path }} --validator --name SHOW_ON_TELEMETRY
+Restart=always
+RestartSec=120
+
+[Install]
+WantedBy=multi-user.target
