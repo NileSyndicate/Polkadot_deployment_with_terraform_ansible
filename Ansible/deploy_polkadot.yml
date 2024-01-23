@@ -58,19 +58,4 @@
         state: started
         enabled: yes
 
-  #   - name: Create systemd service file
-  #     become_user: root
-  #     template:
-  #       src: polkadot.service.j2
-  #       dest: "/etc/systemd/system/polkadot.service"
-  #     notify: Start Polkadot Service
-
-  # handlers:
-  #   - name: Start Polkadot Service
-  #     become_user: root
-  #     systemd:
-  #       name: polkadot
-  #       state: started
-  #       enabled: yes
-
 
